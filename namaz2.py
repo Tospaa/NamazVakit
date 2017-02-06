@@ -8,15 +8,15 @@ Written by Musa Ecer musaecer@gmail.com
 This program was designed for Python 3
 """
 
-__author__ = "Musa Ecer"
-__version__ = "0.3"
-__email__ = "musaecer@gmail.com"
-
 import urllib.request
 from bs4 import BeautifulSoup
 import tkinter
 from time import strftime
 from os.path import isfile
+
+__author__ = "Musa Ecer"
+__version__ = "0.3"
+__email__ = "musaecer@gmail.com"
 
 
 def sehir_bul():
@@ -53,10 +53,12 @@ def site_bul():
 def kontrol():
     defter = open("data.txt").readlines()
     open("data.txt").close()
-    if defter[0].startswith(strftime("%d %m %y")):
+    defter2 = defter[0].split()
+    if defter2[0] == strftime("%d") and defter2[1] == strftime("%m") and defter2[2] == strftime("%y"):
         durum = False
         for i in defter:
-            if i.startswith(sehir_bul()):
+            i2 = i.split()
+            if i2[0] == sehir_bul():
                 durum = True
                 break
         return durum
@@ -69,21 +71,19 @@ def main_func(*args):
     bilgiEtiket["text"] = "Hesaplanıyor..."
     bilgiEtiket.update_idletasks()
 
-    if isfile("data.txt"):
-        kitap = open("data.txt").readlines()
-        open("data.txt").close()
-    else:
+    if not isfile("data.txt"):
         open("data.txt", "w").write("Selam\nDunya\n")
         open("data.txt").close()
-        kitap = open("data.txt").readlines()
-        open("data.txt").close()
+
+    kitap = open("data.txt").readlines()
+    open("data.txt").close()
 
     if kontrol():
-        satir = ""
-        for satir, item in enumerate(kitap):
-            if item.startswith(sehir_bul()):
+        arblist = []
+        for item in kitap:
+            arblist = item.split()
+            if arblist[0] == sehir_bul():
                 break
-        arblist = str(kitap[satir]).split()
 
         sabahLabel["text"] = arblist[1]
         ogleLabel["text"] = arblist[2]
@@ -104,7 +104,7 @@ def main_func(*args):
             bilgiEtiket["text"] = "Sonlandırılıyor..."
             bilgiEtiket.update_idletasks()
 
-            if kitap[0].startswith(strftime("%d %m %y")):
+            if kitap[0].split()[0] == strftime("%d %m %y"):
                 veri = open("data.txt", "a")
                 veri.write(
                     sehir_bul() + " " + sabahLabel["text"] + " " + ogleLabel["text"] + " " + ikindiLabel["text"] + " " +
