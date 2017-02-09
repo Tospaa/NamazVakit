@@ -104,7 +104,7 @@ def main_func(*args):
             bilgiEtiket["text"] = "Sonlandırılıyor..."
             bilgiEtiket.update_idletasks()
 
-            if kitap[0].split()[0] == strftime("%d %m %y"):
+            if (kitap[0].split()[0] + kitap[0].split()[1] + kitap[0].split()[2]) == strftime("%d%m%y"):
                 veri = open("data.txt", "a")
                 veri.write(
                     sehir_bul() + " " + sabahLabel["text"] + " " + ogleLabel["text"] + " " + ikindiLabel["text"] + " " +
