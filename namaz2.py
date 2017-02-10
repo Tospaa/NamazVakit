@@ -72,7 +72,7 @@ def main_func(*args):
     bilgiEtiket.update_idletasks()
 
     if not isfile("data.txt"):
-        open("data.txt", "w").write("Selam\nDunya\n")
+        open("data.txt", "w").write("Selam sana ey\nDunya\n")
         open("data.txt").close()
 
     kitap = open("data.txt").readlines()
