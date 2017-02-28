@@ -1,3 +1,4 @@
+# -*- coding: cp1254 -*-
 """This is basically a web scraping program for getting praying times from a site.
 You use a city name as the input and program scrapes it to give you the wanted values.
 
@@ -51,9 +52,11 @@ def site_bul():
 
 
 def kontrol():
-    defter = open("data.txt").readlines()
-    open("data.txt").close()
+    with open("data.txt") as f:
+        defter = f.readlines()
+
     defter2 = defter[0].split()
+
     if defter2[0] == strftime("%d") and defter2[1] == strftime("%m") and defter2[2] == strftime("%y"):
         durum = False
         for i in defter:
@@ -72,11 +75,11 @@ def main_func(*args):
     bilgiEtiket.update_idletasks()
 
     if not isfile("data.txt"):
-        open("data.txt", "w").write("Selam sana ey\nDunya\n")
-        open("data.txt").close()
+        with open("data.txt", "w") as f:
+            f.write("Selam sana ey\nDunya\n")
 
-    kitap = open("data.txt").readlines()
-    open("data.txt").close()
+    with open("data.txt") as f:
+        kitap = f.readlines()
 
     if kontrol():
         arblist = []
@@ -105,22 +108,23 @@ def main_func(*args):
             bilgiEtiket.update_idletasks()
 
             if (kitap[0].split()[0] + kitap[0].split()[1] + kitap[0].split()[2]) == strftime("%d%m%y"):
-                veri = open("data.txt", "a")
-                veri.write(
-                    sehir_bul() + " " + sabahLabel["text"] + " " + ogleLabel["text"] + " " + ikindiLabel["text"] + " " +
-                    aksamLabel["text"] + " " + yatsiLabel["text"] + "\n")
-                veri.close()
+                with open("data.txt", "a") as veri:
+                    veri.write(
+                        sehir_bul() + " " + sabahLabel["text"] + " " + ogleLabel["text"] + " " +
+                        ikindiLabel["text"] + " " + aksamLabel["text"] + " " + yatsiLabel["text"] + "\n"
+                    )
+
             else:
-                veri = open("data.txt", "w")
-                veri.write(strftime("%d %m %y") + "\n")
-                veri.write(
-                    sehir_bul() + " " + sabahLabel["text"] + " " + ogleLabel["text"] + " " + ikindiLabel["text"] + " " +
-                    aksamLabel["text"] + " " + yatsiLabel["text"] + "\n")
-                veri.close()
+                with open("data.txt", "w") as veri:
+                    veri.write(strftime("%d %m %y") + "\n")
+                    veri.write(
+                        sehir_bul() + " " + sabahLabel["text"] + " " + ogleLabel["text"] + " " +
+                        ikindiLabel["text"] + " " + aksamLabel["text"] + " " + yatsiLabel["text"] + "\n"
+                    )
 
             bilgiEtiket["text"] = " "
 
-        except:
+        except IndexError:
             sabahLabel["text"] = "00:00"
             ogleLabel["text"] = "00:00"
             ikindiLabel["text"] = "00:00"
@@ -128,7 +132,17 @@ def main_func(*args):
             yatsiLabel["text"] = "00:00"
 
             bilgiEtiket["fg"] = "red"
-            bilgiEtiket["text"] = "Ağ ya da girdi hatası."
+            bilgiEtiket["text"] = "Şehri yanlış girdiniz."
+
+        except urllib.error.URLError:
+            sabahLabel["text"] = "00:00"
+            ogleLabel["text"] = "00:00"
+            ikindiLabel["text"] = "00:00"
+            aksamLabel["text"] = "00:00"
+            yatsiLabel["text"] = "00:00"
+
+            bilgiEtiket["fg"] = "red"
+            bilgiEtiket["text"] = "İnternet yok."
 
 
 def vakit(vak, sitesite):
