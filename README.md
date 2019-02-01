@@ -9,3 +9,5 @@ This program uses tkinter as GUI library and bs4 as parsing and manipulating htm
 Written by Musa Ecer musaecer@gmail.com
 
 This program was designed for Python 3
+---------------------------------------
+# This project is debunked.
