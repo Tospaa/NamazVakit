@@ -10,4 +10,4 @@ Written by Musa Ecer musaecer@gmail.com
 
 This program was designed for Python 3
 ---------------------------------------
-# This project is debunked.
+# This project will no longer get updates.
